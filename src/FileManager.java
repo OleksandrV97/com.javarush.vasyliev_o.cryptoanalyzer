@@ -1,9 +1,27 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
 public class FileManager {
-    public String readFile(String filePath) {
-        // Логика чтения файла
-        return filePath;
+
+    public static List<String> readFile(String filePath) {
+        try {
+            Path path = Path.of(filePath);
+            return Files.readAllLines(path);
+        } catch (IOException e) {
+            throw new RuntimeException("ОШИБКА: Программа не может прочитать файл");
+        }
+
     }
-    public void writeFile(String content, String filePath) {
-        // Логика записи файла
+
+    public static void writeFile(String content, String filePath) {
+        try {
+            Path path = Path.of(filePath);
+            Files.writeString(path, content);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

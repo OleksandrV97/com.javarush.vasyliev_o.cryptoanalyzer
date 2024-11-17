@@ -1,11 +1,15 @@
+import java.io.File;
+
 public class Validator {
     public boolean isValidKey(int key, char[] alphabet) {
-        // Проверка ключа
-        return false;
+        if (key < 1 || key > alphabet.length) {
+            return false;
     }
+    return true;
+}
     public boolean isFileExists(String filePath) {
-        // Проверка существования файла
-        return false;
+        File file = new File(filePath);
+        return file.exists() && file.isFile();
     }
 }
 

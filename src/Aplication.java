@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Aplication {
@@ -13,19 +14,76 @@ public class Aplication {
         System.out.println("3. Расшифровка при помощи - Brute force");
         System.out.println("0. Выход");
 
+        var var = keyboard.nextInt();
+        keyboard.nextLine();
 
-        switch (keyboard.nextInt()) {
+        switch (var) {
             case 1:
-                System.out.println("Укажите путь к файлу для шифрования");
-                String inputFile = keyboard.next();
-                FileManager fileManager = new FileManager();
-                String readerFile = fileManager.readFile(inputFile);
-                System.out.println("Введите ключ для шифрования (целое число)");
-                String keyCypher = keyboard.next();
-                System.out.println("Укажите путь для сохранения нового файла");
-                String saveFile = keyboard.next();
-
-
+                crypt(validator, keyboard);
+                break;
+            case 2:
+                decrypt(validator, keyboard);
+                break;
+            case 3:
+                bruteForce(validator, keyboard);
+                break;
+            case 0:
+                System.out.println("Завершение работы программы");
+                System.exit(0);
+            default:
+                System.out.println("Некорректный выбор. Пожалуйста, попробуйте снова.");
         }
+    }
+    }
+}
+
+
+private static void crypt(Validator validator, Scanner keyboard) {
+    System.out.println("Укажите путь к исходному файлу");
+    String inputFile = keyboard.nextLine();
+    System.out.println("Напишите ключ (целое число)");
+    String key = keyboard.nextLine();
+    System.out.println("Укажите путь сохранения файла");
+    String saveFile = keyboard.nextLine();
+
+    if (validator.isFileExists(inputFile) && validator.isValidKey(inputFile) && validator.isValidKey(key)) {
+        List<String> list = FileManager.readFile(inputFile);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String line : list) {
+            String crypt = Cypher.crypt(line, Integer.parseInt(key));
+            stringBuilder.append(crypt).append("\n");
+        }
+        FileManager.writeFile(saveFile, stringBuilder.toString());
+        System.out.println("Файл зашифрован и сохранен");
+    }
+}
+
+private static void decrypt(Validator validator, Scanner keyboard) {
+    System.out.println("Укажите путь к исходному зашифрованому файлу");
+    String inputFile = keyboard.nextLine();
+    System.out.println("Напишите ключ (целое число)");
+    String key = keyboard.nextLine();
+    System.out.println("Укажите путь сохранения файла");
+    String saveFile = keyboard.nextLine();
+    if (validator.isFileExists(inputFile) && validator.isValidKey(inputFile) && validator.isValidKey(key)) {
+        List<String> list = FileManager.readFile(inputFile);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String line : list) {
+            String decrypt = Cypher.decrypt(line, Integer.parseInt(key));
+            stringBuilder.append(decrypt).append("\n");
+        }
+        FileManager.writeFile(saveFile, stringBuilder.toString());
+        System.out.println("Файл расшифрован и сохранен");
+    }
+}
+
+private static void bruteForce(Validator validator, Scanner keyboard) {
+    System.out.println("Укажите путь к файлу для расшифровки");
+    String path = keyboard.nextLine();
+    System.out.println("Укажите путь для сохранения расшифрованных файлов");
+    String newPath = keyboard.nextLine();
+    if (validator.isFileExists(path) && validator.isValidKey(path)) {
+        Cypher.bruteForce(path, newPath);
+        System.out.println("Расшифрованные файлы сохранены");
     }
 }

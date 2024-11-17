@@ -1,8 +1,9 @@
 import java.io.File;
 
 public class Validator {
-    public boolean isValidKey(int key, char[] alphabet) {
-        if (key < 1 || key > alphabet.length) {
+    public boolean isValidKey(String key) {
+        if (key == null) {
+            System.out.println("Err: не праильный ключ");
             return false;
     }
     return true;

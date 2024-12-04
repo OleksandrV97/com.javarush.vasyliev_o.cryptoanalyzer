@@ -12,7 +12,4 @@ public class Validator {
         File file = new File(filePath);
         return file.exists() && file.isFile();
     }
-
-
 }
-

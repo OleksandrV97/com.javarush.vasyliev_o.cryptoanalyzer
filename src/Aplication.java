@@ -46,12 +46,12 @@ public class Aplication {
 
         if (validator.isFileExists(inputFile) && validator.isValidKey(inputFile) && validator.isValidKey(key)) {
             List<String> list = FileManager.readFile(inputFile);
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             for (String line : list) {
                 String crypt = Cypher.crypt(line, Integer.parseInt(key));
-                stringBuilder.append(crypt).append("\n");
+                sb.append(crypt).append("\n");
             }
-            FileManager.writeFile(saveFile, stringBuilder.toString());
+            FileManager.writeFile(saveFile, sb.toString());
             System.out.println("Файл зашифрован и сохранен");
         }
     }
@@ -64,15 +64,16 @@ public class Aplication {
         String saveFile = keyboard.nextLine();
         if (validator.isFileExists(inputFile) && validator.isValidKey(inputFile) && validator.isValidKey(key)) {
             List<String> list = FileManager.readFile(inputFile);
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             for (String line : list) {
                 String decrypt = Cypher.decrypt(line, Integer.parseInt(key));
-                stringBuilder.append(decrypt).append("\n");
+                sb.append(decrypt).append("\n");
             }
-            FileManager.writeFile(saveFile, stringBuilder.toString());
+            FileManager.writeFile(saveFile, sb.toString());
             System.out.println("Файл расшифрован и сохранен");
         }
-    }public static void doBruteForce(Validator validator, Scanner keyboard) {
+    }
+    public static void doBruteForce(Validator validator, Scanner keyboard) {
         System.out.println("Укажите путь к файлу для расшифровки");
         String path = keyboard.nextLine();
         System.out.println("Укажите путь для сохранения расшифрованных файлов");
